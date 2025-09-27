@@ -1,3 +1,4 @@
+import { redis } from "bun";
 import { rpcClient } from "./viem";
 
 export function jsonResponse(obj: any, status = 200) {
@@ -50,5 +51,59 @@ export async function verifyPayment(txnHash: string) {
     return { valid: true, txnHash, blockNumber: receipt.blockNumber };
   } catch (error: any) {
     return { valid: false, reason: error.message || "Verification error" };
+  }
+}
+
+export async function downloadImage(imageData: string | null) {
+  try {
+    if (!imageData) {
+      return Response.json(
+        { error: "No image data provided" },
+        { status: 400 },
+      );
+    }
+
+    const buffer = Buffer.from(decodeURIComponent(imageData), "base64");
+
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+    const filename = `gemini-image-${timestamp}.png`;
+
+    return new Response(buffer, {
+      headers: {
+        "Content-Type": "image/png",
+        "Content-Disposition": `attachment; filename="${filename}"`,
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+  } catch (error: any) {
+    console.error("Error downloading image:", error);
+    return Response.json(
+      {
+        error: "Failed to download image",
+        details: error.message,
+      },
+      { status: 500 },
+    );
+  }
+}
+
+export async function markTxnHashAsUsed(txnHash: string) {
+  try {
+    await redis.set(`txn:${txnHash}`, "used");
+  } catch (error) {}
+}
+
+export async function isTxnHashUsed(txnHash: string): Promise<boolean> {
+  try {
+    const value = await redis.get(`txn:${txnHash}`);
+
+    if (value === "used") {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("Error checking/setting transaction hash:", error);
+    throw error;
   }
 }

@@ -1,7 +1,7 @@
 import { createPublicClient, http } from "viem";
-import { polygonAmoy } from "viem/chains";
+import { polygonAmoy, sepolia } from "viem/chains";
 
 export const rpcClient = createPublicClient({
-  chain: polygonAmoy,
+  chain: sepolia,
   transport: http(),
 });
