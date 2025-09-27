@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@filoz/synapse-sdk": "^0.28.0",
+    "@google/genai": "^1.21.0",
     "@lighthouse-web3/sdk": "^0.4.2",
-    "ethers": "^6.15.0"
+    "@upstash/redis": "^1.35.4",
+    "ethers": "^6.15.0",
+    "viem": "^2.37.8"
   }
 }
