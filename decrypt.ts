@@ -5,7 +5,7 @@ import { sign } from "crypto";
 
 const PAYER_KEY = process.env.PAYER_KEY!;
 const signer = new ethers.Wallet(PAYER_KEY);
-const signAuthMessage = async (publicKey, privateKey) => {
+const signAuthMessage = async (publicKey: string, privateKey: string) => {
   const provider = new ethers.JsonRpcProvider();
   const signer = new ethers.Wallet(privateKey, provider);
   const messageRequested = (await lighthouse.getAuthMessage(publicKey)).data
@@ -15,7 +15,7 @@ const signAuthMessage = async (publicKey, privateKey) => {
 };
 
 export const decrypt = async (hash: string) => {
-  const privateKey = process.env.PAYER_KEY;
+  const privateKey = process.env.PAYER_KEY!;
 
   const signedMessage = await signAuthMessage(signer.address, privateKey);
   const fileEncryptionKey = await lighthouse.fetchEncryptionKey(
