@@ -13,8 +13,8 @@ import { redis } from "bun";
 import { GoogleGenAI } from "@google/genai";
 import { generateImage, generateImagePreview } from "./ai";
 import { addPaymentDetailes } from "./payment";
-import { getLeaderBoard } from "./lb";
 import { addAbortListener } from "events";
+import { getLeaderBoard } from "./lb";
 
 const PAYER_KEY = process.env.PAYER_KEY!;
 

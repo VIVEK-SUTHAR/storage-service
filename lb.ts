@@ -29,7 +29,7 @@ export async function updateLeaderBoard(txnHash: string) {
     console.error("Error updating leaderboard:", e);
     throw e;
   }
-
+}
 
 async function updateLeaderBoardScore(address: string, points: number) {
   try {

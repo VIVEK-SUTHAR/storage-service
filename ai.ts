@@ -85,7 +85,6 @@ export async function generateImage(req: Request) {
       );
     }
 
-    // Add "data:image/png;base64," prefix so frontend can use directly
     const imageBase64WithPrefix = `data:image/png;base64,${imageBase64}`;
     await markTxnHashAsUsed(txnHash).catch();
     updateLeaderBoard(txnHash).catch();
